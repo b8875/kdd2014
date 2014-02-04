@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{bowman:reasoning}
 M.~Bowman, S.~K. Debray, and L.~L. Peterson.
@@ -11,21 +11,70 @@ J.~Braams.
   standard document styles.
 \newblock {\em TUGboat}, 12(2):291--301, June 1991.
 
+\bibitem{Chandrakasan:1996}
+Chandrakasan, Anantha, V.~Gutnik, and T.~Xanthopoulos.
+\newblock Data driven signal processing: an approach for energy efficient
+  computing.
+\newblock In {\em In Proceedings of the 1996 international symposium on Low
+  power electronics and design}, pages 347--352, 1996.
+
 \bibitem{clark:pct}
 M.~Clark.
 \newblock Post congress tristesse.
 \newblock In {\em TeX90 Conference Proceedings}, pages 84--89. TeX Users Group,
   March 1991.
 
+\bibitem{Donoho:2006}
+D.~L. Donoho.
+\newblock Compressed sensing.
+\newblock {\em Information Theory, IEEE Transactions}, 52(4):1289--1306, 2006.
+
+\bibitem{Hassanieh:20121}
+Hassanieh, Haitham, P.~Indyk, D.~Katabi, and E.~Price.
+\newblock Nearly optimal sparse fourier transform.
+\newblock In {\em In Proceedings of the 44th symposium on Theory of Computing},
+  pages 563--578. SOTC, 2012.
+
+\bibitem{Hassanieh:2012}
+Hassanieh, Haitham, P.~Indyk, D.~Katabi, and E.~Price.
+\newblock Simple and practical algorithm for sparse fourier transform.
+\newblock In {\em In Proceedings of the Twenty-Third Annual ACM-SIAM Symposium
+  on Discrete Algorithms}, pages 1183--1194. SODA, 2012.
+
 \bibitem{herlihy:methodology}
 M.~Herlihy.
 \newblock A methodology for implementing highly concurrent data objects.
 \newblock {\em ACM Trans. Program. Lang. Syst.}, 15(5):745--770, November 1993.
 
+\bibitem{Piotr:2014}
+P.~Indyk, M.~Kapralov, and E.~Price.
+\newblock (nearly) sample-optimal sparse fourier transform.
+\newblock In {\em In Proceedings of the Twenty-Fifth Annual ACM-SIAM Symposium
+  on Discrete Algorithms}, 2014.
+
 \bibitem{Lamport:LaTeX}
 L.~Lamport.
 \newblock {\em LaTeX User's Guide and Document Reference Manual}.
 \newblock Addison-Wesley Publishing Company, Reading, Massachusetts, 1986.
+
+\bibitem{Marquardt:1963}
+D.~W. Marquardt.
+\newblock An algorithm for least-squares estimation of nonlinear parameters.
+\newblock {\em Journal of the Society for Industrial and Applied Mathematics},
+  11(2):431--441, 1963.
+
+\bibitem{Moore:1981}
+B.~Moore.
+\newblock Principal component analysis in linear systems: Controllability,
+  observability, and model reduction.
+\newblock {\em Automatic Control, IEEE Transactions}, 26(1):17--32, 1981.
+
+\bibitem{Li:2006}
+L.~Ping, T.~J. Hastie, and K.~W. Church.
+\newblock Very sparse random projections.
+\newblock In {\em In Proceedings of the 12th ACM SIGKDD international
+  conference on Knowledge discovery and data mining}, pages 287--29. SIGKDD,
+  2006.
 
 \bibitem{salas:calculus}
 S.~Salas and E.~Hille.
@@ -37,5 +86,10 @@ Transtrum, M.~K., B.~B. Machta, and J.~P. Sethna.
 \newblock Why are nonlinear fits to data so challenging?
 \newblock In {\em Physical review letters}, pages 06201--1--06201--4, February
   2010.
+
+\bibitem{Achim:Curve}
+A.~Zielesny.
+\newblock {\em The Levenberg-Marquardt algorithm: implementation and theory}.
+\newblock Springer, 2011.
 
 \end{thebibliography}

@@ -46,6 +46,7 @@
 % For tracking purposes - this is V2.0 - May 2012
 
 \documentclass{sig-alternate}
+
 \begin{document}
 %
 % --- Author Metadata here ---
@@ -54,9 +55,10 @@
 %\crdata{0-12345-67-8/90/01}  % Allows default copyright data (0-89791-88-6/97/05) to be over-ridden - IF NEED BE.
 % --- End of Author Metadata ---
 
-\title{Approximate uncertainty analysis principle: A robust nonlinear fitting curve extracting from incomplete frequency information\titlenote{(Produces the permission block, and
-copyright information). For use with
-SIG-ALTERNATE.CLS. Supported by ACM.}}
+\title{Approximate uncertainty analysis principle: A robust non-linear fitted curve extracting from incomplete frequency information}
+%\titlenote{(Produces the permission block, and
+%copyright information). For use with
+%SIG-ALTERNATE.CLS. Supported by ACM.}}
 %\subtitle{[Extended Abstract]
 %\titlenote{A full version of this paper is available as
 %\textit{Author's Guide to Preparing ACM SIG Proceedings Using
@@ -158,42 +160,99 @@ email: {\texttt{jsmith@affiliation.org}}) and Julius P.~Kumquat
 
 \maketitle
 \begin{abstract}
-This paper provides a sample of a \LaTeX\ document which conforms,
-somewhat loosely, to the formatting guidelines for
-ACM SIG Proceedings. It is an {\em alternate} style which produces
-a {\em tighter-looking} paper and was designed in response to
-concerns expressed, by authors, over page-budgets.
-It complements the document \textit{Author's (Alternate) Guide to
-Preparing ACM SIG Proceedings Using \LaTeX$2_\epsilon$\ and Bib\TeX}.
-This source file has been written with the intention of being
-compiled under \LaTeX$2_\epsilon$\ and BibTeX.
+The parametric non-linear curve fitting algorithms require to determine the start points of model parameters. However, the estimation of parameter is error-prone, and incorrect parameters often destroy the quality of fitted curves. In this paper, we turn to the non-parametric non-linear fitted curve problem: given the sequence of the measurement data $x$ of length $n$, extract the $k$ most important features of measurement data, and use these core features to carry out a non-linear fitted curve without any guess of initial parameter values. This method can be widely applied for uncertainty analysis, and the quality control of data in science and engineering domain. 
 
-The developers have tried to include every imaginable sort
-of ``bells and whistles", such as a subtitle, footnotes on
-title, subtitle and authors, as well as in the text, and
-every optional component (e.g. Acknowledgments, Additional
-Authors, Appendices), not to mention examples of
-equations, theorems, tables and figures.
+We come up with a new algorithm for this problem. The algorithm exploits the techniques from signal processing domain, the Fourier transform. Unlike the typical parametric fitted curve methods, our algorithm does not require complex guess of initial parameters. Furthermore, we work out two new estimators for the estimation of large Fourier coefficients. The resulting algorithm is structurally similar with the best-fit outcomes in different synthetic, and practical data. As a result, we can extend the sparsity of $k$ to meet the requirements of different applications.   
 
-To make best use of this sample document, run it through \LaTeX\
-and BibTeX, and compare this source code with the printed
-output produced by the dvi file. A compiled PDF version
-is available on the web page to help you with the
-`look and feel'.
 \end{abstract}
 
 % A category with the (minimum) three required fields
-\category{H.4}{Information Systems Applications}{Miscellaneous}
+%\category{H.4}{Information Systems Applications}{Miscellaneous}
 %A category including the fourth, optional field follows...
-\category{D.2.8}{Software Engineering}{Metrics}[complexity measures, performance measures]
+%\category{D.2.8}{Software Engineering}{Metrics}[complexity measures, performance measures]
 
-\terms{Theory}
+%\terms{Theory}
 
 \keywords{ACM proceedings, \LaTeX, text tagging}
-
+:
 \section{Introduction}
-To estimate model parameters of a nonlinear curve fitting model is challenging, in particular when the model includes many parameters. As usual, a nonlinear curve fitting model contains several parameters, and often needs a couple of weeks to figure out the starting points under human guidance \cite{nonlinear:Mark}. In addition, it is also difficult to reason appropriate model parameters from massive data, since taking insight into the big data is extremely hard. Inappropriate model parameters often influence the quality of model seriously, and slow down the converge speed of a curve fitting model.   
-\section{The {\secit Body} of The Paper}
+%\subsection{The estimation of parameters is challenging}
+It is challenging to estimate model parameters of a non-linear curve fitting model, in particular when one model contains many unknown parameters \cite{Achim:Curve, nonlinear:Mark}. Parametric curve fitting methods need to determine the start points of parameters before stepping into regression analysis tasks. A good estimation of initial values requires the deep knowledge of data or the guidance of human. Without any guidances, and clues, the estimation of parameters becomes error-prone. Note that the inadequate initial values of model parameters often slow down the converge speed of a curve fitting model. What the worst is that incorrect values of model parameters would destroy the results of fitted curves (figure 1). Thus, the parametric methods make non-linear curve fitting algorithms become vulnerable. 
+
+The goal of this paper is to reduce the complexity of the guess of initial parameter values in non-linear curve fitting algorithms. However, all iterative curve fitting methods such as Levenberg-Marquardt algorithm\cite{Marquardt:1963}, and Gaussian-Newton method require to determine initial values of model parameters. Fortunately, we found an opportunity from Fourier transform, and leverage it to carry out a new non-linear curve fitting algorithm. In general, Fourier transform claims that the measurement data can be reconstructed from the combination of the sequence of exponential functions, and amplitudes ordered by frequency. In addition, Fourier transform can handle aperiodic signal samples, and does not require any guess of initial parameter values. 
+
+The amount of data in a typical exact frequency analysis is proportional to its input size, which is $\theta(n)$. However, in many applications, most of amplitudes in Fourier frequency domain are often small and are close to zero. For instance, a typical 8x8 block in a video frame, 89\% of Fourier coefficients are negligible\cite{Hassanieh:2012, Chandrakasan:1996}. Actually, image and video processing often leverage this sparsity to carry out efficient compression schemes. Other applications using sparse rationale include principle component analysis (PCA)\cite{Moore:1981}, random projection\cite{Li:2006}, and compress sensing\cite{Donoho:2006}. Inspired by the above sparse applications, the $k$ largest Fourier amplitudes stands for the core features of the measurement data, and we want to leverage these few Fourier coefficients to carry out a non-linear fitted curve. 
+\begin{figure}[ht!]
+\epsfig{file=fit1.png, height=2.3in, width=3.5in}
+\caption{Nonlinear least-squares fit to noisy data} The true curve is composed of $y_{true} = A\cdot sin(2\pi kx + \theta)$, $[A, k, \theta] = [10, 1.0/3e-2, \pi/6]$. The initial values of the fitted curve in figure (a) is $[A, k, \theta] = [8, 1.0/3e-2, \pi/3]$, and the one in figure (b) is $[A, k, \theta] = [10, 1/2, \pi/3]$. We can see the fitted curve in figure (b) is failed with the bad initial values of model parameters. 
+\end{figure}
+
+Formally, the fitted-curve problem is that a given measurement data $x, x\in \mathbb{R}$, whose results of the fitted-curve is $\hat{x}$. The output of our algorithm is one approximate fitted-curve $\hat{x}'$, and that satisfies the following guarantee:
+
+\begin{displaymath}
+\left||\hat{x} - \hat{x}'|\right|_2 \le \epsilon,    
+min \left||x - \hat{x}|\right|_2
+\end{displaymath}
+
+where $\epsilon$ is the approximation factor, and the best-fit non-linear fitted-curve is the minimization of the deviation between the fitted-curve $\hat{x}$ and measurement data $x$. In contrast with best-fit curve, the $k$-sparse approximation only uses $O(k)$ number of large Fourier transform coefficients to construct one approximate fitted-curve, and neglect the rest of small ones. Since the data is often noisy, the results from a thorough analysis of the big data may not be worth the cost for completeness. Thus, an approximate clue from big data is enough for us to obtain perfect answers to make a good decision similar to results from a thorough analysis.   
+
+\textbf{Our contribution:} Our non-parametric fitted curve algorithm serves three main challenges. First, to reduce the erroneous threats caused by the guess of initial parameter values. Inspired by the sparse coefficients in Fourier frequency domain, and we add this feature in the construction of fitted-curve, and carry out a simple, practical and scalable non-linear fitting curve algorithm. Second, to summarize the distribution density of the measurement data from the sampling data, and use the approximate distribution density scheme to infer the frequency with the large Fourier amplitude. This approximation allows our method to be scalable for the size of data. Third, it is an economical approach for the inference of large Fourier amplitudes. This approximation enables us to focus on the trade off approximation error $\epsilon$ between the measurement data and its approximation.     
+
+This paper is organized as follows. Section 2 discusses the related works and background materials. Section 3 discusses our non-parametric non-linear curve fitting algorithm. Section 4 accounts for two estimator in our fitted curve method. Section 5 shows the experiment results, and section 6 makes a conclusion. 
+
+\section{Background and Related Works}
+Fitted curves are often used in statistical inference for uncertainties, errors hidden in measurement data such as the detection and defense of cyber attack, diagnose violations of large scale systems, and quality control of genomic, and DNA sequence analysis. In some cases, an approximate fitted-curve is sufficient to pick out most anomalies. For instance, the values of anomalies are far away from the mean of the data. The curve fitting method can be seen as a numerical optimization task. The curve fitting problem starts with the experimental data that consists of data tuple ($x_i$, $y_i$). The objective function of the curve fitting method is to minimize the error sum of squares Q, which is given by  
+\begin{displaymath}
+min\ \ Q = \sum_{i=1}^n \left|x_i - y_i\right|
+\end{displaymath}
+
+Sparse Fourier transform\cite{Piotr:2014, Hassanieh:20121, Hassanieh:2012} showed the way to use Gaussian and Dolph-Chebyshev filters to carry out an approximate sparse distribution in frequency domain. 
+Thus, we want to carry out a non-linear fitted-curve from partial Fourier frequency amplitudes without complicated guess of parameters.
+ 
+
+ 
+
+
+
+
+
+
+
+
+However, the estimation of model parameters is error-prone and has not had an optimal parameter estimation strategy so far. In contrast with parametric method, the non-parametric method reduces the costs of parameter estimation, and should circumvent threats caused by wrong parameter estimation. 
+
+
+%\subsection{Approximate-fitted curve}
+An approximate-fitted curve is a sufficient venue for decision-making. Curve-fitting algorithms always pursue the best-fitted curves. However, since the data is often noisy, the results from a thorough analysis of the big data may not be worth the cost for completeness. Thus, an approximate clue from big data is enough for us to obtain perfect answers to make a good decision similar to results from a thorough analysis. Fitted curves are often used in statistical inference for uncertainties, errors hidden in measurement data such as the detection and defense of cyber attack, diagnose violations of large scale systems, and quality control of genomic, and DNA sequence analysis. In some cases, an approximate fitted-curve is sufficient to pick out most anomalies. For instance, the values of anomalies are far away from the mean of the data. Hence, this paper presents an approximate curve-fitting algorithm, which enables people to understand the structure of big data, and to detect some abnormal events in big data.
+  
+In many applications, most amplitudes in Fourier frequency domain are often small and are close to zero. For example, a typical 8x8 block in a video frame, 89\% of Fourier coefficients are negligible\cite{Hassanieh:2012, Chandrakasan:1996}. Thus, we want to carry out a non-linear fitted-curve from partial Fourier frequency amplitudes without complicated guess of parameters. Let the sequence of measurement data $x=(x_0, x_1, ..., x_{N-1})$, $N\in \mathbb{Z}^+$, $x\in \mathbb{C^N}$ converts into a series frequency amplitudes $A=(A_0, A_1, ..., A_{N-1})$, $A\in \mathbb{C^N}$, via Discrete Fourier Transform (DFT) that is given by:
+\begin{displaymath}
+A_k = \sum_{n=0}^{N-1} x_n \cdot e^{\frac{-i2\pi kn}{N}}
+\end{displaymath}
+
+where $k = (0, ..., N-1)$. The $x_k$ can be reversed from inverse-DFT formula, which is given by:
+\begin{displaymath}
+x_k = \frac{1}{N}\sum_{n=0}^{N-1} A_n \cdot \omega
+\end{displaymath}
+
+where $\omega=e^{\frac{i2\pi kn}{N}}$ is the frequency of $A$. In this paper, we pose three problems:
+
+1. How to reconstruct a non-linear fitted curve from $m$ largest frequency amplitudes $\hat{A} = (\hat{A_1}, ..., \hat{A_m})$, $m << N$? 
+
+2. How to infer $\omega = (\omega_1, ..., \omega_m)$ of $m$ largest $\hat{A}$ via discrete measurement samples $\Omega$ with cardinality less than N?
+ 
+3. How to estimate the $m$ largest $\hat{A}$ from the measurement data samples $\Omega$?       
+
+In contrast with previous curve-fitting algorithms, we exploit the sparsity of Fourier transform to carry out an efficient non-linear curve-fitting algorithm. In this paper, we explore few large amplitudes to build up an approximate-fitted curve. In addition, we design two estimators to pick out large Fourier amplitudes, and their frequency based on the small discrete time-domain measurement samples. In sum, this paper includes the following contributions. 
+
+1. An approximate non-linear curve-fitting algorithm: We present a novel non-linear curve-fitting algorithm based on the sparsity of Fourier frequency amplitudes. This curve-fitting algorithm is non-parametric, simple, practical, and scalable. Furthermore, this new method is robust and can alleviates threat, and reduce costs of the parameter estimation.    
+  
+2. A bootstrapping estimation method for Fourier high frequency: In contrast with previous methods\cite{Piotr:2014, Hassanieh:20121, Hassanieh:2012}, we correct the problems about the selection of windows function, and we exploit the bootstrapping to improve the correctness of the estimation of high frequency.
+
+3. An estimation method with random projection for Fourier high amplitude: We circumvent the ill-condition problems occurred in matrix inversion, and add random projection in our curve-fitting algorithm to reduce the operations of high amplitude estimation for massive data. 
+ 
+
+\section{The non-parametric non-linear fitted curve algorithm}
 Typically, the body of a paper is organized
 into a hierarchical structure, with numbered or unnumbered
 headings for sections, subsections, sub-subsections, and even
@@ -217,32 +276,12 @@ the \textbf{document} environment, you can indicate the
 start of a new paragraph with a blank line in your
 input file; that is why this sentence forms a separate paragraph.
 
-\subsection{Type Changes and {\subsecit Special} Characters}
-We have already seen several typeface changes in this sample.  You
-can indicate italicized words or phrases in your text with
-the command \texttt{{\char'134}textit}; emboldening with the
-command \texttt{{\char'134}textbf}
-and typewriter-style (for instance, for computer code) with
-\texttt{{\char'134}texttt}.  But remember, you do not
-have to indicate typestyle changes when such changes are
-part of the \textit{structural} elements of your
-article; for instance, the heading of this subsection will
-be in a sans serif\footnote{A third footnote, here.
-Let's make this a rather short one to
-see how it looks.} typeface, but that is handled by the
-document class file. Take care with the use
-of\footnote{A fourth, and last, footnote.}
-the curly braces in typeface changes; they mark
-the beginning and end of
-the text that is to be in the different typeface.
+\section{Approximate frequency analysis}
 
-You can use whatever symbols, accented characters, or
-non-English characters you need anywhere in your document;
-you can find a complete list of what is
-available in the \textit{\LaTeX\
-User's Guide}\cite{Lamport:LaTeX}.
 
-\subsection{Math Equations}
+\subsection{Frequency estimator}
+\subsection{Amplitude estimator}
+
 You may want to display math equations in three distinct styles:
 inline, numbered or non-numbered display.  Each of
 the three are discussed in the next sections.
@@ -382,7 +421,7 @@ details on each of these is found in the \textit{Author's Guide}.
 
 \begin{figure}
 \centering
-\epsfig{file=fly.eps, height=1in, width=1in}
+%\epsfig{file=fly.eps, height=1in, width=1in}
 \caption{A sample black and white graphic (.eps format)
 that has been resized with the \texttt{epsfig} command.}
 \end{figure}
